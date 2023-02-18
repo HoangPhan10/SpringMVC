@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Register</title>
+    <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/css/bootstrap.min.css"/>
+</head>
+<style>
+    body{
+        background-color: black;
+        background-image: url("https://toigingiuvedep.vn/wp-content/uploads/2021/06/anh-bia-hacker-dep-cho-fb.jpg");
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-size: cover;
+    }
+    h1{
+        color: white;
+    }
+    .form{
+        margin-top: 15%;
+    }
+    label{
+        display: block;
+        color: white;
+        text-align: left;
+        margin-bottom: 5px;
+    }
+    .form_login{
+        display: flex;
+    }
+    .form_login-elm{
+        margin: 0 auto;
+    }
+    input{
+        height: 40px;
+        padding-left: 5px;
+        width: 300px;
+        border: none;
+        outline-color: #ccc;
+    }
+    button{
+        height:40px;
+        background-color: aqua;
+    }
+    .msg{
+        color: white;
+    }
+    a{
+        padding-left: 5px;
+        text-decoration: none;
+    }
+
+</style>
+<body>
+<div class="container text-center form">
+    <h1 class="mb-3">Register</h1>
+    <div class="form_login">
+        <form class="form_login-elm" th:action="@{/register}" method="POST" th:object="${user}" novalidate="novalidate">
+            <div class="mb-3">
+                <label th:if="${usernameExist}" class="text-danger">Username already exists</label>
+                <label th:if="${errorPassword}" class="text-danger">Password incorrect</label>
+                <label>Username</label>
+                <input type="text"  th:field="*{username}" placeholder="Username"/>
+            </div>
+            <div class="mb-3">
+                <label>Password</label>
+                <input type="password" th:field="*{password}" placeholder="Password"/>
+            </div>
+            <div class="mb-3">
+                <label>Repeat Password</label>
+                <input type="password" th:field="*{repeatPassword}" placeholder="Repeat password"/>
+            </div>
+
+            <button type="submit" class="w-100 mt-2">Register</button>
+            <div class="msg d-flex mt-3">
+                <p>Do you already have an account?</p><a th:href="@{/login}">Login</a>
+            </div>
+        </form>
+    </div>
+
+</div>
+</body>
+</html>

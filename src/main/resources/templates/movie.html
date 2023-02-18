@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+  <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/css/bootstrap.min.css"/>
+</head>
+<style>
+    body{
+        background: rgb(54,78,196);
+        background: -moz-radial-gradient(circle, rgba(54,78,196,1) 0%, rgba(68,90,170,1) 54%, rgba(89,112,171,1) 74%, rgba(91,160,219,1) 91%);
+        background: -webkit-radial-gradient(circle, rgba(54,78,196,1) 0%, rgba(68,90,170,1) 54%, rgba(89,112,171,1) 74%, rgba(91,160,219,1) 91%);
+        background: radial-gradient(circle, rgba(54,78,196,1) 0%, rgba(68,90,170,1) 54%, #686dc3 74%, rgba(91,160,219,1) 91%);
+        display: flex;
+    }
+    .home{
+        margin: 30px auto;
+        width: 90%;
+    }
+    .logo p{
+        font-size: 20px;
+        font-family: system-ui;
+        line-height: 30px;
+        color: #fff;
+        margin: 0 10px;
+    }
+    a{
+        text-decoration: none;
+        font-size: 20px;
+        font-family: system-ui;
+        line-height: 30px;
+        color: #ffffff;
+        margin: 0 10px;
+    }
+    a:hover{
+        opacity: 0.8;
+        color: #ffffff;
+    }
+    .disable{
+    color:white !important;
+    }
+    .card{
+        border: none;
+        /*box-shadow: inset 1px 1px rgb(255 255 255 / 20%), inset -1px -1px rgb(255 255 255 / 10%), 1px 3px 24px -1px rgb(0 0 0 / 15%);*/
+        background-color: transparent;
+        background-image: linear-gradient(125deg,rgba(255,255,255,.3),rgba(255,255,255,.2) 70%);
+        -webkit-backdrop-filter: blur(5px);
+        backdrop-filter: blur(5px);
+        --bs-secondary-rgb: transparent;
+        height: 405px;
+        width: 23%;
+        margin-bottom: 35px;
+    }
+    .card2{
+        border: none;
+        /*box-shadow: inset 1px 1px rgb(255 255 255 / 20%), inset -1px -1px rgb(255 255 255 / 10%), 1px 3px 24px -1px rgb(0 0 0 / 15%);*/
+        background-color: transparent;
+        background-image: linear-gradient(125deg,rgba(255,255,255,.3),rgba(255,255,255,.2) 70%);
+        -webkit-backdrop-filter: blur(5px);
+        backdrop-filter: blur(5px);
+        --bs-secondary-rgb: transparent;
+        height: 105px;
+        margin-top: 30px;
+        border-radius: 10px;
+        margin-bottom: 35px;
+        text-align: center;
+    }
+    .card2 p{
+        color: white;
+        font-family: system-ui;
+        font-size: 20px;
+        padding: 35px 0;
+        background-color: transparent;
+    }
+    .card-title{
+        padding: 14px 32px;
+        margin: 0;
+        border-bottom: 1px solid rgba(255,255,255,.2);
+        font-family: system-ui;
+        font-size: 16px;
+        background-color: transparent;
+        color: white;
+        font-weight: bold;
+    }
+    .card-title span{
+        font-size: 14px;
+        font-weight: normal;
+    }
+    .card-msg{
+        padding: 28px 32px;
+        font-size: 16px;
+        background-color: transparent;
+        color: #fdfdfe;
+    }
+    .title{
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+    input{
+        width: 315px;
+        margin-right: 30px;
+        outline-style: none;
+        border: none;
+        border-radius: 6px;
+        height: 35px;
+        padding: 10px;
+    }
+    button{
+        border: none;
+        border-radius: 6px;
+        padding: 5px 10px;
+
+    }
+</style>
+<body>
+<div class="home">
+    <div class="d-flex justify-content-between mb-2">
+        <div class="d-flex logo">
+            <img src="https://www.themoviedb.org/assets/2/v4/logos/v2/blue_square_2-d537fb228cf3ded904ef09b136fe3fec72548ebc1fea3fbbd1ad9e36364db38b.svg"alt="logo" height="60px" width="60px"/>
+            <p class="pt-3 px-lg-2">The Movie Database</p>
+            <a th:class="${searchItem}?'pt-3 disable':'pt-3'" th:href="@{/movies}">Movies</a>
+            <a th:href="@{/trend}" th:class="${searchItem}?'pt-3':'disable pt-3'">Trending</a>
+        </div>
+        <div class="pt-3">
+            <a class="pt-5" th:href="@{/login}">Login</a>
+        </div>
+    </div>
+    <div class="d-flex justify-content-between mb-3">
+        <div>
+            <form class="form_login-elm" method="get" th:action="@{/search}" th:object="${searchItem}">
+            <input autofocus placeholder="Search by movie name" type="text" th:field="*{search}" />
+            <button type="submit">Search</button>
+            </form>
+        </div>
+        <div></div>
+
+    </div>
+    <div th:unless="${movies.isEmpty()}" class="flex-wrap d-flex justify-content-between">
+        <div class="card" th:each="movie:${movies}" >
+            <div class="card-title">
+                <p class="m-0 title" th:text="${movie.getTitle()}"></p>
+                <span th:text="${movie.getRelease_date()}"></span>
+            </div>
+            <div class="d-flex p-4">
+                <img class="m-auto" th:src="@{${'https://image.tmdb.org/t/p/w500' + movie.getPoster_path()}}" alt="image" height="280px" width="280px"/>
+            </div>
+        </div>
+
+    </div>
+    <div th:if="${movies.isEmpty()}">
+        <div class="card2">
+            <p>Movie not found</p>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>
